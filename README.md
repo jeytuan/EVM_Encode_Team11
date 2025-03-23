@@ -1,33 +1,48 @@
-# 🏆 Team 11 - Encode Club EVM Bootcamp
+# 📦 Lesson Materials – Encode Club EVM Bootcamp
 
-Welcome to the **Team 11 EVM Bootcamp Repository!**  
-This repo contains all of our **Encode EVM Bootcamp (Q1 2025)** coursework, smart contracts, and final project submissions.
+Welcome to the **Team 11 Group Practice Workspace** for the Encode EVM Bootcamp (Q1 2025).  
+This directory contains collaborative smart contract assignments, deployment scripts, and test cases as we work through the technical lifecycle of Solidity development.
 
-## 📌 Overview  
-This repository will include:
-- 🛠 **Solidity Smart Contracts**: Homework assignments & team projects  
-- 🎯 **Project Submissions**: Code for final project & group collaborations  
-- 📖 **Learning Resources**: Notes, guides, and research findings  
-- 🔧 **Testing & Debugging**: Unit tests, deployment scripts, and best practices  
+## 🧠 What’s Inside
+- `Ballot.sol`, `TokenizedBallot.sol`: Voting logic and governance lifecycle
+- `MyToken.sol`: ERC20 implementation for tokenized voting
+- Scripts: Minting tokens, delegating voting power, casting votes, reading results
+- Viem + Hardhat integrations for seamless TypeScript execution
 
-## 📚 Course Milestones  
-1. **HelloWorld.sol** – Solidity fundamentals & contract interactions  
-2. **Ballot.sol** – Voting & tokenized governance mechanisms  
-3. **ERC20 & ERC721 Contracts** – Token standards & OpenZeppelin usage  
-4. **dApp Development** – Frontend integration with smart contracts  
-5. **Security & Gas Optimization** – Contract safety best practices  
-6. **Final Project** – To be determined by the team (Drypto-related or another blockchain-based project)
+## ✅ Highlights from Group Work
+- 🧪 Successfully deployed and interacted with `TokenizedBallot` on Sepolia
+- 👥 Delegated vote power and verified delegation state changes on-chain
+- 🗳️ Cast votes with minted tokens and tracked results by proposal
+- 🔍 Used `viem` and `ethers` to read contract state with precision
+- 📊 Queried and decoded on-chain bytes32 proposal names from Solidity
 
-## 🚀 Getting Started  
-### **Prerequisites**  
-Ensure you have the following installed:
-- **Node.js v20 LTS** & **npm** (or yarn/bun)
-- **Hardhat** for Solidity development
-- **Git CLI** for version control
-- **VS Code** (recommended for Solidity editing)
+## 🛠 Scripts in Action
+Each script under `lesson_materials/scripts/` targets a specific stage of the voting process:
 
-### **Installation**  
-1. Clone the repo:  
-   ```bash
-   git clone https://github.com/your-org-or-username/team11-evm-bootcamp.git
+| Script | Purpose |
+|--------|---------|
+| `DeployBallot.ts` | Deploy ballot contracts |
+| `GiveVotingRights.ts` | Grant vote rights |
+| `DelegateVotes.ts` | Delegate voting power |
+| `CastVote.ts` | Submit a vote |
+| `QueryVoterState.ts` | View voter state |
+| `QueryResults.ts` | List proposal outcomes |
+| `interactWithBallot.ts` | Full lifecycle (mint, delegate, vote, read) |
 
+## 📁 Repo Navigation
+
+- `contracts/`: Solidity smart contracts  
+- `scripts/`: Hardhat + Viem automation scripts  
+- `test/`: Unit testing with TypeScript  
+- `.env`: Sensitive keys and config (excluded from repo)
+
+## 🚀 Team Notes
+
+- Deployed on Sepolia Testnet using two distinct wallets
+- Used environment-based account management for delegation
+- Confirmed all major interactions via transaction hashes
+- Everything tracked & version-controlled for submission
+
+---
+
+**Team 11, Encode Club Bootcamp – Stronger together 💪**
