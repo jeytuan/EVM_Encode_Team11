@@ -59,11 +59,10 @@ npx hardhat run scripts/DelegateVotes.ts --network sepolia
 ## 📊 Voter State Query
 npx hardhat run scripts/QueryVoterState.ts --network sepolia
 🔎 Voter Data:
-Weight   : undefined
-Voted    : undefined
-Delegate : undefined
-Vote     : undefined
-(This may indicate the voter has not received full rights or was queried prematurely.)
+Weight   : 1
+Voted    : True
+Delegate : 0x71bE63f3384f5fb98995898A86B02Fb2426c5788
+Vote     : 0
 
 
 ## 🔁 Issues Resolved
