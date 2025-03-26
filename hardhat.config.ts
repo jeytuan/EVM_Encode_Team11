@@ -7,27 +7,35 @@ import * as dotenv from "dotenv";
 
 dotenv.config();
 
+const ALCHEMY_API_KEY = process.env.ALCHEMY_API_KEY || "";
+const PRIVATE_KEY = process.env.PRIVATE_KEY || "";
+
 const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.20",
     settings: {
-      optimizer: { enabled: true, runs: 200 },
+      optimizer: {
+        enabled: true,
+        runs: 200,
+      },
+    },
+  },
+  defaultNetwork: "hardhat",
+  networks: {
+    hardhat: {},
+    sepolia: {
+      url: `https://eth-sepolia.g.alchemy.com/v2/${ALCHEMY_API_KEY}`,
+      accounts: PRIVATE_KEY ? [PRIVATE_KEY] : [],
+    },
+  },
+  namedAccounts: {
+    deployer: {
+      default: 0,
     },
   },
   typechain: {
     outDir: "typechain-types",
-    target: "ethers-v6", // ✅ Safe and supported
-  },
-  defaultNetwork: "hardhat",
-  namedAccounts: {
-    deployer: { default: 0 },
-  },
-  networks: {
-    hardhat: {},
-    sepolia: {
-      url: process.env.SEPOLIA_RPC_URL || "",
-      accounts: process.env.PRIVATE_KEY ? [process.env.PRIVATE_KEY] : [],
-    },
+    target: "ethers-v6",
   },
 };
 

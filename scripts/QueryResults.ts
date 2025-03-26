@@ -3,7 +3,7 @@ import { getContract } from "viem";
 import { bytesToString } from "viem/utils";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-const TOKENIZED_BALLOT_ADDRESS = "0xYourBallotContractAddress";
+const TOKENIZED_BALLOT_ADDRESS = "0xac1b5f1a9c62280dd46fb92e0514c8017d64d30d";
 
 async function main() {
   const publicClient = await viem.getPublicClient();

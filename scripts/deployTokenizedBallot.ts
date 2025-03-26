@@ -1,16 +1,36 @@
+// scripts/deployTokenizedBallot.ts
+
 import { viem } from "hardhat";
-import { encodeBytes32String } from "viem";
+import { sepolia } from "viem/chains";
+import { createWalletClient, createPublicClient, http } from "viem";
+import { privateKeyToAccount } from "viem/accounts";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-const MYTOKEN_ADDRESS = "0xYourTokenAddressHere";
+const MYTOKEN_ADDRESS = "0x2bee3a9005ca1deb59a4b65cda024f407b950c03"; // 🔁 Replace this with actual MyToken address
 const PROPOSALS = ["Chocolate", "Vanilla", "Strawberry"];
 
 async function main() {
-  const walletClient = await viem.getWalletClient();
-  const publicClient = await viem.getPublicClient();
-  const account = walletClient.account;
+  if (!process.env.PRIVATE_KEY) {
+    throw new Error("❌ PRIVATE_KEY not set in .env");
+  }
 
-  const proposalBytes = PROPOSALS.map((name) => encodeBytes32String(name));
+  const account = privateKeyToAccount(`0x${process.env.PRIVATE_KEY}`);
+
+  const walletClient = createWalletClient({
+    account,
+    chain: sepolia,
+    transport: http(),
+  });
+
+  const publicClient = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
+
+  // Manually encode proposals as bytes32
+  const proposalBytes = PROPOSALS.map(name =>
+    `0x${Buffer.from(name, "utf8").toString("hex").padEnd(64, "0")}` as const
+  );
 
   const deployHash = await walletClient.deployContract({
     abi: TokenizedBallotArtifact.abi,
@@ -19,7 +39,9 @@ async function main() {
     account,
   });
 
-  const receipt = await publicClient.waitForTransactionReceipt({ hash: deployHash });
+  const receipt = await publicClient.waitForTransactionReceipt({
+    hash: deployHash,
+  });
 
   console.log(`✅ TokenizedBallot deployed at: ${receipt.contractAddress}`);
   console.log(`🗳️ Proposals: ${PROPOSALS.join(", ")}`);
