@@ -1,16 +1,21 @@
 import { viem } from "hardhat";
-import { getContract, bytesToString } from "viem/utils";
+import { getContract, bytesToString } from "viem";
+import { sepolia } from "viem/chains";
+import { http, createPublicClient } from "viem";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-const TOKENIZED_BALLOT_ADDRESS = "0xYourBallotContractAddress";
+const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
 
 async function main() {
-  const publicClient = await viem.getPublicClient();
+  const publicClient = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
 
   const ballot = getContract({
     address: TOKENIZED_BALLOT_ADDRESS,
     abi: TokenizedBallotArtifact.abi,
-    publicClient,
+    client: publicClient,
   });
 
   const winnerIndex = await ballot.read.winningProposal();

@@ -1,26 +1,29 @@
-import { viem } from "hardhat";
-import { getContract } from "viem";
-import { bytesToString } from "viem/utils";
+import { createPublicClient, getContract, http } from "viem";
+import { sepolia } from "viem/chains";
+import { bytesToString, hexToBytes } from "viem/utils";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-const TOKENIZED_BALLOT_ADDRESS = "0xac1b5f1a9c62280dd46fb92e0514c8017d64d30d";
+const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
 
 async function main() {
-  const publicClient = await viem.getPublicClient();
+  const publicClient = createPublicClient({
+    chain: sepolia,
+    transport: http(),
+  });
 
   const ballot = getContract({
     address: TOKENIZED_BALLOT_ADDRESS,
     abi: TokenizedBallotArtifact.abi,
-    publicClient,
+    client: publicClient,
   });
 
   const count = await ballot.read.getProposalsCount();
 
   console.log(`📊 Proposals and Votes (${count} total):\n`);
   for (let i = 0; i < Number(count); i++) {
-    const name = await ballot.read.getProposalName([i]);
-    const votes = await ballot.read.getProposalVotes([i]);
-    console.log(`📌 Proposal ${i}: ${bytesToString(name as Uint8Array)} — ${votes} votes`);
+    const name = (await ballot.read.getProposalName([BigInt(i)])) as `0x${string}`;
+    const votes = await ballot.read.getProposalVotes([BigInt(i)]);
+    console.log(`📌 Proposal ${i}: ${bytesToString(hexToBytes(name))} - ${votes} votes`);
   }
 }
 

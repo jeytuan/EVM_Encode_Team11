@@ -11,7 +11,11 @@ import { privateKeyToAccount } from "viem/accounts";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
 // 🔧 Replace with your actual deployed contract address
-const TOKENIZED_BALLOT_ADDRESS = "0xac1b5f1a9c62280dd46fb92e0514c8017d64d30d";
+// const TOKENIZED_BALLOT_ADDRESS = "0xac1b5f1a9c62280dd46fb92e0514c8017d64d30d";
+const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
+// const TOKENIZED_BALLOT_ADDRESS = "0xbbc48f914D62bc24cF686E6Ef64f9BBac24bdbD4";
+
+  
 
 async function main() {
   if (!process.env.PRIVATE_KEY) {
@@ -38,6 +42,8 @@ async function main() {
   });
 
   console.log(`🟩 Vote cast for proposal 0 with 1 vote. Tx hash: ${txHash}`);
+  console.log("📮 Voting from address:", account.address);
+
 }
 
 main().catch((err) => {

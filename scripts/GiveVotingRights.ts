@@ -1,14 +1,16 @@
-// scripts/GiveVotingRights.ts
-
 import { viem } from "hardhat";
 import { getContract, createWalletClient, http } from "viem";
 import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-// ✅ Replace with actual deployed TokenizedBallot address and target wallet
 const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
-const TARGET_ADDRESS = "0xe2A95ebE3EbBb1857C833d289Ca7be38BA5f26E7";
+
+// ✅ Add all voter addresses here
+const TARGET_ADDRESSES = [
+  "0xe2A95ebE3EbBb1857C833d289Ca7be38BA5f26E7",
+  "0xbbc48f914D62bc24cF686E6Ef64f9BBac24bdbD4", // MetaMask wallet
+];
 
 async function main() {
   if (!process.env.PRIVATE_KEY) {
@@ -28,15 +30,19 @@ async function main() {
     client: walletClient,
   });
 
-  const txHash = await ballot.write.giveRightToVote([TARGET_ADDRESS], {
-    account,
-  });
-
-  console.log(`✅ Voting rights granted to ${TARGET_ADDRESS}`);
-  console.log(`📜 Tx hash: ${txHash}`);
+  for (const address of TARGET_ADDRESSES) {
+    try {
+      const txHash = await ballot.write.giveRightToVote([address], { account });
+      console.log(`✅ Voting rights granted to ${address}`);
+      console.log(`📜 Tx hash: ${txHash}\n`);
+    } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
+      console.error(`❌ Failed to grant rights to ${address}:`, message);
+    }
+  }
 }
 
 main().catch((err) => {
-  console.error("❌ Failed to grant voting rights:", err);
+  console.error("❌ Failed in script execution:", err);
   process.exit(1);
 });
