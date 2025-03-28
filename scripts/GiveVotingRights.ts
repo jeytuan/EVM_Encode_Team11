@@ -4,7 +4,8 @@ import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
+// const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
+const TOKENIZED_BALLOT_ADDRESS = "0x945b8bef68348aae5ca907913c00ea89377f2323";
 
 // ✅ Add all voter addresses here
 const TARGET_ADDRESSES = [

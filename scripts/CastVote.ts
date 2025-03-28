@@ -1,5 +1,4 @@
 // scripts/CastVote.ts
-
 import { viem } from "hardhat";
 import {
   getContract,
@@ -10,19 +9,16 @@ import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 import TokenizedBallotArtifact from "../artifacts/contracts/TokenizedBallot.sol/TokenizedBallot.json";
 
-// 🔧 Replace with your actual deployed contract address
-// const TOKENIZED_BALLOT_ADDRESS = "0xac1b5f1a9c62280dd46fb92e0514c8017d64d30d";
-const TOKENIZED_BALLOT_ADDRESS = "0x15d54584363d820958db0acf5b1054a9baa39cac";
-// const TOKENIZED_BALLOT_ADDRESS = "0xbbc48f914D62bc24cF686E6Ef64f9BBac24bdbD4";
-
-  
+const BALLOT_ADDRESS = "0x945b8bef68348aae5ca907913c00ea89377f2323";
+const PROPOSAL_INDEX = 2n; // 🥭 Strawberry
+const VOTE_AMOUNT = 1n;
 
 async function main() {
-  if (!process.env.PRIVATE_KEY) {
-    throw new Error("❌ PRIVATE_KEY not set in .env file.");
-  }
+  const voterKey = process.env.VOTER2_PRIVATE_KEY;
+  if (!voterKey) throw new Error("❌ VOTER2_PRIVATE_KEY not set in .env");
 
-  const account = privateKeyToAccount(`0x${process.env.PRIVATE_KEY}`);
+  const account = privateKeyToAccount(`0x${voterKey}`);
+  console.log("🔐 Voting with wallet:", account.address);
 
   const walletClient = createWalletClient({
     account,
@@ -31,22 +27,22 @@ async function main() {
   });
 
   const ballot = getContract({
-    address: TOKENIZED_BALLOT_ADDRESS,
+    address: BALLOT_ADDRESS,
     abi: TokenizedBallotArtifact.abi,
     client: walletClient,
   });
 
-  // ✅ Pass 2 arguments: proposal index and voting power (adjust as needed)
-  const txHash = await ballot.write.vote([0n, 1n], {
-    account,
-  });
+  // Check vote power spent
+  const spent = await ballot.read.votePowerSpent([account.address]);
+  console.log(`💥 Vote power already spent: ${spent}`);
 
-  console.log(`🟩 Vote cast for proposal 0 with 1 vote. Tx hash: ${txHash}`);
-  console.log("📮 Voting from address:", account.address);
-
+  // Cast vote!
+  const txHash = await ballot.write.vote([PROPOSAL_INDEX, VOTE_AMOUNT], { account });
+  console.log(`🟩 Vote cast for proposal ${PROPOSAL_INDEX} with ${VOTE_AMOUNT} vote`);
+  console.log(`📮 Tx hash: ${txHash}`);
 }
 
-main().catch((err) => {
+main().catch(err => {
   console.error("❌ Cast vote script failed:", err);
   process.exit(1);
 });

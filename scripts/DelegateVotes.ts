@@ -10,9 +10,8 @@ import { sepolia } from "viem/chains";
 import { privateKeyToAccount } from "viem/accounts";
 import MyTokenArtifact from "../artifacts/contracts/MyToken.sol/MyToken.json";
 
-// ✅ Replace with your actual MyToken contract address and delegatee
+// ✅ Replace with your deployed token address
 const MYTOKEN_ADDRESS = "0x2bee3a9005ca1deb59a4b65cda024f407b950c03";
-const DELEGATE_TO = "0xe2A95ebE3EbBb1857C833d289Ca7be38BA5f26E7";
 
 async function main() {
   if (!process.env.PRIVATE_KEY) {
@@ -20,6 +19,7 @@ async function main() {
   }
 
   const account = privateKeyToAccount(`0x${process.env.PRIVATE_KEY}`);
+  const DELEGATE_TO = account.address;
 
   const walletClient = createWalletClient({
     account,
@@ -35,14 +35,16 @@ async function main() {
     client: walletClient,
   });
 
-  // ✅ Delegate votes to target address
+  console.log(`🔐 Loaded wallet: ${account.address}`);
+  console.log(`🗳️ Delegating votes to: ${DELEGATE_TO}`);
+
   const txHash = await token.write.delegate([DELEGATE_TO], {
     account,
   });
 
-  console.log(`🟩 Vote delegated to ${DELEGATE_TO}. Tx hash: ${txHash}`);
+  console.log(`✅ Delegation successful. Tx hash: ${txHash}`);
 
-  // Optional: Read new votes — wrap in try/catch to avoid crashing if checkpoints are still unavailable
+  // Optional: Check voting power of delegatee
   try {
     const readToken = getContract({
       address: MYTOKEN_ADDRESS,
@@ -50,10 +52,10 @@ async function main() {
       client: publicClient,
     });
 
-    const updatedVotes = await readToken.read.getVotes([account.address]);
-    console.log(`🗳️ Updated voting power: ${updatedVotes}`);
+    const updatedVotes = await readToken.read.getVotes([DELEGATE_TO]);
+    console.log(`📊 ${DELEGATE_TO} voting power: ${updatedVotes}`);
   } catch (err) {
-    console.warn("⚠️ Could not read voting power after delegation (possibly no checkpoints yet).");
+    console.warn("⚠️ Could not fetch voting power (may need block confirmation).");
   }
 }
 
