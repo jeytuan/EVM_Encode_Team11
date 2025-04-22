@@ -1,0 +1,43 @@
+.
+├── CONTRIBUTING.md
+├── directory-structure.txt
+├── funding.json
+├── LICENCE
+├── package.json
+├── package-lock.json
+├── packages
+│   ├── hardhat
+│   │   ├── contracts
+│   │   ├── deploy
+│   │   ├── deployments
+│   │   ├── hardhat.config.ts
+│   │   ├── package.json
+│   │   ├── scripts
+│   │   ├── test
+│   │   ├── tsconfig.json
+│   │   └── typechain-types
+│   └── nextjs
+│       ├── app
+│       ├── components
+│       ├── contracts
+│       ├── hooks
+│       ├── next.config.ts
+│       ├── next-env.d.ts
+│       ├── package.json
+│       ├── pages
+│       ├── postcss.config.js
+│       ├── public
+│       ├── scaffold.config.ts
+│       ├── services
+│       ├── styles
+│       ├── tailwind.config.js
+│       ├── tsconfig.json
+│       ├── tsconfig.tsbuildinfo
+│       ├── types
+│       ├── utils
+│       ├── vercel.json
+│       └── views
+├── README.md
+└── yarn.lock
+
+21 directories, 20 files
