@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+
+# Node-related
+node_modules/
+
+# Output files
+output/
+*.log
+
+# Local env
+.env
+
+# Metadata & temp builds
+*.tmp
+*.cache
+*.DS_Store
+
+# VSCode
+.vscode/
+.env
