@@ -1,0 +1,31 @@
+# dependencies
+node_modules
+
+# environment variables (security)
+.env
+
+# Hardhat directories and artifacts
+artifacts/
+cache/
+coverage/
+coverage.json
+ignition/deployments/
+
+# Typechain auto-generated files
+typechain/
+typechain-types/
+
+# compiled solidity coverage reports
+coverage/
+coverage.json
+
+# IDE specific files (optional but recommended)
+.vscode/
+.idea/
+
+# Logs
+*.log
+
+# Operating System files (recommended)
+.DS_Store
+Thumbs.db

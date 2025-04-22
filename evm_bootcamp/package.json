@@ -1,0 +1,32 @@
+{
+  "name": "evm_bootcamp",
+  "version": "1.0.0",
+  "description": "Welcome to the **Team 11 Group Practice Workspace** for the Encode EVM Bootcamp (Q1 2025).   This directory contains collaborative smart contract assignments, deployment scripts, and test cases as we work through the technical lifecycle of Solidity development.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-toolbox-viem": "^3.0.0",
+    "@nomicfoundation/hardhat-viem": "^2.0.6",
+    "@typechain/hardhat": "^9.1.0",
+    "@types/dotenv": "^6.1.1",
+    "dotenv": "^16.4.7",
+    "hardhat": "^2.22.19",
+    "hardhat-deploy": "^1.0.1",
+    "ts-node": "^10.9.2",
+    "typechain": "^8.3.2",
+    "typescript": "^5.8.2"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.2.0",
+    "random-words": "^2.0.1"
+  }
+}
