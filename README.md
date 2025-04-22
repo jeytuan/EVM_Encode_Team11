@@ -39,9 +39,17 @@ npx hardhat test
 ---
 
 ### `drypto/`
-> NFT generator for our Primal Fusion Astrology system.
+> Core directory for our Drypto innovations. Includes:
+> ✅ Pool + PoolFactory smart contracts (testable via Hardhat)
+> ⚠️ NFT generator for the Primal Fusion Astrology system (currently experimental / not functional)
 
-To run:
+To test smart contracts:
+```bash
+cd drypto
+npx hardhat test
+```
+
+To experiment with the NFT generator (WIP):
 ```bash
 cd drypto/nft-generator
 python generator.py
