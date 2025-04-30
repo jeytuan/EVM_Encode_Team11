@@ -5,15 +5,15 @@ import { StepMetadataProps } from "@/types/poolWizardTypes";
 
 const StepMetadata: React.FC<StepMetadataProps> = ({ formData, updateFormData, goNext, goBack }) => {
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto bg-base-100 p-6 rounded shadow">
       <h2 className="text-xl font-bold mb-4">📋 Pool Details</h2>
-      <p className="mb-4 text-gray-600">Give your pool a name, a short description, and assign a category.</p>
+      <p className="mb-4 text-neutral">Give your pool a name, a short description, and assign a category.</p>
 
       <label className="block mb-3">
         <span className="text-sm font-medium">Name</span>
         <input
           type="text"
-          className="input input-bordered w-full mt-1"
+          className="input input-bordered rounded-lg w-full mt-1"
           value={formData.name}
           onChange={e => updateFormData({ name: e.target.value })}
         />
@@ -22,7 +22,7 @@ const StepMetadata: React.FC<StepMetadataProps> = ({ formData, updateFormData, g
       <label className="block mb-3">
         <span className="text-sm font-medium">Description</span>
         <textarea
-          className="textarea textarea-bordered w-full mt-1"
+          className="textarea textarea-bordered rounded-lg w-full mt-1"
           value={formData.description}
           rows={4}
           onChange={e => updateFormData({ description: e.target.value })}
@@ -32,7 +32,7 @@ const StepMetadata: React.FC<StepMetadataProps> = ({ formData, updateFormData, g
       <label className="block mb-3">
         <span className="text-sm font-medium">Category</span>
         <select
-          className="select select-bordered w-full mt-1"
+          className="select select-bordered rounded-lg w-full mt-1"
           value={formData.category}
           onChange={e => updateFormData({ category: e.target.value })}
         >
