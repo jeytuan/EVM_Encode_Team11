@@ -46,9 +46,9 @@ const StepReview: React.FC<StepReviewProps> = ({ formData, goBack }) => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto bg-base-100 p-6 rounded shadow">
       <h2 className="text-xl font-bold mb-4">✅ Review & Confirm</h2>
-      <p className="mb-4 text-gray-600">Please review your pool details before finalizing.</p>
+      <p className="mb-4 text-neutral">Please review your pool details before finalizing.</p>
 
       <div className="space-y-3 text-sm">
         <div><strong>Event Type:</strong> {eventType}</div>

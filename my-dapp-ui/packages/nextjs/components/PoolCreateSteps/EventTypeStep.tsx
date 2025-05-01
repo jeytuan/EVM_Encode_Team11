@@ -23,18 +23,18 @@ const EventTypeStep: React.FC<EventTypeStepProps> = ({ formData, updateFormData,
   };
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
-      <h2 className="text-xl font-bold mb-4">📌 Select Event Type</h2>
-      <p className="mb-4 text-gray-600">What kind of pool are you setting up?</p>
+    <div className="max-w-md mx-auto bg-base-100 p-6 rounded shadow">
+      <h2 className="text-xl text-neutral font-bold mb-4">📌 Select Event Type</h2>
+      <p className="mb-4 text-neutral">What kind of pool are you setting up?</p>
 
       <div className="space-y-2">
         {eventTypes.map(event => (
           <button
             key={event.value}
-            className={`w-full text-left px-4 py-3 rounded border transition ${
+            className={`w-full text-left text-neutral px-4 py-3 rounded border transition ${
               formData.eventType === event.value
-                ? "bg-blue-100 border-blue-500"
-                : "bg-white border-gray-300 hover:bg-gray-50"
+                ? "bg-blue-100 border-blue-500 text-black"
+                : "bg-gray-300 border-gray-400 hover:bg-gray-600 hover:text-gray-800"
             }`}
             onClick={() => handleSelect(event.value)}
           >
@@ -44,7 +44,7 @@ const EventTypeStep: React.FC<EventTypeStepProps> = ({ formData, updateFormData,
       </div>
 
       <div className="mt-6 flex justify-end">
-        <button onClick={goNext} className="btn btn-primary" disabled={!formData.eventType}>
+        <button onClick={goNext} className="btn btn-primary text-neutral" disabled={!formData.eventType}>
           Continue →
         </button>
       </div>

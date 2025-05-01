@@ -5,25 +5,32 @@ import { usePublicClient } from "wagmi";
 import { getContract, type Address, type Abi } from "viem";
 import PoolAbi from "@/contracts/Pool.json";
 import PoolCard from "./PoolCard";
-import { usePoolFactory } from "@/hooks/scaffold-eth/usePoolFactory";
+// import PoolAbi from "@/contracts/Pool.json";
+// import { usePoolFactory } from "@/hooks/scaffold-eth/usePoolFactory";
+// import { type Abi, type Address, getContract } from "viem";
+// import { usePublicClient } from "wagmi";
 
-const abi = PoolAbi.abi as Abi;
 
-interface PoolMetadata {
-  address: string;
-  name: string;
-  description: string;
-  category: string;
-  goal: string;
-  deadline: string;
-  balance: string;
-  withdrawn: boolean;
-  visibility: "public" | "private" | "unknown";
-}
+// const abi = PoolAbi.abi as Abi;
+
+// Uncomment this out
+
+// interface PoolMetadata {
+//   address: string;
+//   name: string;
+//   description: string;
+//   category: string;
+//   goal: string;
+//   deadline: string;
+//   balance: string;
+//   withdrawn: boolean;
+//   visibility: "public" | "private" | "unknown";
+// }
 
 const PoolList: React.FC = () => {
-  const { getAllPools } = usePoolFactory();
-  const publicClient = usePublicClient();
+  // Uncomment this out
+  // const { getAllPools } = usePoolFactory();
+  // const publicClient = usePublicClient();
 
   const [pools, setPools] = useState<PoolMetadata[]>([]);
   const [loading, setLoading] = useState(false);

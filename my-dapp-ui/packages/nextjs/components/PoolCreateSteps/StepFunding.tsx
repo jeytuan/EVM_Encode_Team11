@@ -32,7 +32,7 @@ const StepFunding: React.FC<StepFundingProps> = ({ formData, updateFormData, goN
   }, [formData.goalUsd, formData.minContributionUsd]);
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto bg-base-100 p-6 rounded shadow">
       <h2 className="text-xl font-bold mb-4">💰 Pool Funding Details</h2>
       <p className="mb-4 text-gray-600">Set your funding target and contribution thresholds.</p>
 
@@ -43,7 +43,7 @@ const StepFunding: React.FC<StepFundingProps> = ({ formData, updateFormData, goN
           placeholder="e.g. 1000"
           value={formData.goalUsd}
           onChange={e => updateFormData({ goalUsd: e.target.value })}
-          className="input input-bordered w-full"
+          className="input input-bordered rounded-lg w-full"
         />
         {goalEth && (
           <p className="text-sm text-gray-500 mt-1">≈ {goalEth} ETH (based on mock $3k/ETH)</p>
@@ -57,7 +57,7 @@ const StepFunding: React.FC<StepFundingProps> = ({ formData, updateFormData, goN
           placeholder="e.g. 10"
           value={formData.minContributionUsd}
           onChange={e => updateFormData({ minContributionUsd: e.target.value })}
-          className="input input-bordered w-full"
+          className="input input-bordered rounded-lg w-full"
         />
         {minEth && (
           <p className="text-sm text-gray-500 mt-1">≈ {minEth} ETH (mock conversion)</p>
@@ -71,7 +71,7 @@ const StepFunding: React.FC<StepFundingProps> = ({ formData, updateFormData, goN
           placeholder="e.g. 7"
           value={formData.duration}
           onChange={e => updateFormData({ duration: e.target.value })}
-          className="input input-bordered w-full"
+          className="input input-bordered rounded-lg w-full"
         />
       </div>
 

@@ -14,7 +14,7 @@ const StepVisibility: React.FC<StepVisibilityProps> = ({ formData, updateFormDat
   const { visibility } = formData;
 
   return (
-    <div className="max-w-md mx-auto bg-white p-6 rounded shadow">
+    <div className="max-w-md mx-auto bg-base-100 p-6 rounded shadow">
       <h2 className="text-xl font-bold mb-4">🔐 Visibility Settings</h2>
       <p className="mb-4 text-gray-600">Choose who can view and access this pool.</p>
 

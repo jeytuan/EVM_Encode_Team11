@@ -82,7 +82,7 @@ Want to collaborate on the project, refine UI, or expand the NFT logic?
 Built by:
 - Justin ([@jeytuan](https://github.com/jeytuan))
 - Sabb
-- Raja
+- Raja ([@slraja](https://github.com/slraja))
 - Nate
 
 Special thanks to the Encode Bootcamp instructors and mentors!
