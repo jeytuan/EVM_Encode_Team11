@@ -9,10 +9,10 @@ contract Pool {
     uint256 public createdAt;
     bool public withdrawn;
 
-    string public name;
-    string public description;
-    string public category;
-    string public visibility; // 👈 NEW FIELD
+    string private _name;
+    string private _description;
+    string private _category;
+    string private _visibility;
 
     mapping(address => uint256) public contributions;
 
@@ -24,21 +24,37 @@ contract Pool {
         uint256 _goal,
         uint256 _durationInDays,
         uint256 _minContribution,
-        string memory _category,
-        string memory _name,
-        string memory _description,
-        string memory _visibility // 👈 NEW PARAMETER
+        string memory category_,
+        string memory name_,
+        string memory description_,
+        string memory visibility_
     ) {
         creator = _creator;
         goal = _goal;
         minContribution = _minContribution;
         deadline = block.timestamp + (_durationInDays * 1 days);
-        category = _category;
-        name = _name;
-        description = _description;
-        visibility = _visibility; // 👈 NEW ASSIGNMENT
+        _category = category_;
+        _name = name_;
+        _description = description_;
+        _visibility = visibility_;
         createdAt = block.timestamp;
         withdrawn = false;
+    }
+
+    function name() public view returns (string memory) {
+        return _name;
+    }
+
+    function description() public view returns (string memory) {
+        return _description;
+    }
+
+    function category() public view returns (string memory) {
+        return _category;
+    }
+
+    function visibility() public view returns (string memory) {
+        return _visibility;
     }
 
     function contribute() external payable {

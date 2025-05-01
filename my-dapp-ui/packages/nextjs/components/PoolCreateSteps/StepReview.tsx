@@ -25,7 +25,13 @@ const StepReview: React.FC<StepReviewProps> = ({ formData, goBack }) => {
     setLoading(true);
     setError("");
     try {
-      const txHash = await createPool(formData);
+      // 🛠 Ensure category fallback to "General" if empty
+      const updatedFormData = {
+        ...formData,
+        category: formData.category?.trim() || "General",
+      };
+
+      const txHash = await createPool(updatedFormData);
       if (txHash) {
         setTxHash(txHash as string);
       } else {
@@ -52,7 +58,7 @@ const StepReview: React.FC<StepReviewProps> = ({ formData, goBack }) => {
         <div><strong>Duration:</strong> {duration} days</div>
         <div><strong>Pool Name:</strong> {name}</div>
         <div><strong>Description:</strong> {description}</div>
-        <div><strong>Category:</strong> {category}</div>
+        <div><strong>Category:</strong> {category?.trim() || "General"}</div> {/* 🛠 Display fallback too */}
       </div>
 
       <div className="mt-6 flex justify-between">

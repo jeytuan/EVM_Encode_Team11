@@ -1,4 +1,4 @@
-import { useAccount, useWalletClient, useChainId } from "wagmi";
+import { useAccount, useWalletClient, usePublicClient, useChainId } from "wagmi";
 import { useCallback } from "react";
 import { getContract, getAddress, type Abi, type Address } from "viem";
 import PoolFactoryArtifact from "@/contracts/PoolFactory.json";
@@ -9,6 +9,7 @@ const STATIC_USD_TO_ETH = 3000;
 
 export function usePoolFactory() {
   const { data: walletClient } = useWalletClient();
+  const publicClient = usePublicClient();
   const { address } = useAccount();
   const chainId = useChainId();
   const abi = PoolFactoryArtifact.abi as Abi;
@@ -23,7 +24,8 @@ export function usePoolFactory() {
     console.error("⚠️ Invalid poolFactory address:", err);
   }
 
-  const contract = walletClient && factoryAddress
+  // Contract for writing (needs walletClient)
+  const writeContract = walletClient && factoryAddress
     ? getContract({
         address: factoryAddress,
         abi,
@@ -31,9 +33,18 @@ export function usePoolFactory() {
       })
     : null;
 
+  // Contract for reading (uses publicClient)
+  const readContract = publicClient && factoryAddress
+    ? getContract({
+        address: factoryAddress,
+        abi,
+        client: publicClient,
+      })
+    : null;
+
   const createPool = useCallback(
     async (formData: FormData) => {
-      if (!contract || !walletClient || !address) throw new Error("Wallet not connected or contract missing");
+      if (!writeContract || !walletClient || !address) throw new Error("Wallet not connected or contract missing");
 
       const goalEth = parseFloat(formData.goalUsd) / STATIC_USD_TO_ETH;
       const minContributionEth = parseFloat(formData.minContributionUsd) / STATIC_USD_TO_ETH;
@@ -42,25 +53,27 @@ export function usePoolFactory() {
       const minContribution = BigInt(Math.floor(minContributionEth * 1e18));
       const duration = parseInt(formData.duration);
 
-      const txHash = await contract.write.createPool(
-        [goal, duration, minContribution, formData.category, formData.name, formData.description, formData.visibility],
+      const category = formData.category?.trim() || "General";
+
+      const txHash = await writeContract.write.createPool(
+        [goal, duration, minContribution, category, formData.name, formData.description, formData.visibility],
         { account: address as Address }
       );
 
       return txHash;
     },
-    [walletClient, contract, address]
+    [walletClient, writeContract, address]
   );
 
   const getAllPools = useCallback(async () => {
-    if (!contract) throw new Error("Contract not ready");
-    return await contract.read.getAllPools();
-  }, [contract]);
+    if (!readContract) throw new Error("Read Contract not ready");
+    return await readContract.read.getAllPools();
+  }, [readContract]);
 
   const getPoolsByCreator = useCallback(async (creator: Address) => {
-    if (!contract) throw new Error("Contract not ready");
-    return await contract.read.getPoolsByCreator([creator]);
-  }, [contract]);
+    if (!readContract) throw new Error("Read Contract not ready");
+    return await readContract.read.getPoolsByCreator([creator]);
+  }, [readContract]);
 
   return {
     createPool,

@@ -1,0 +1,13 @@
+{
+    "name": "Fire Woodpecker",
+    "description": "A Primal Astrology NFT variant combining Woodpecker with Fire elemental effect.",
+    "image": "ipfs://bafybeicwqkn22bxwmfklwzlvm5iyi4lxchtj3i67jjh5oxmzhhk56ppnim/Fire_Woodpecker.png",
+    "attributes": [
+      { "trait_type": "Base Animal", "value": "Woodpecker" },
+      { "trait_type": "Element", "value": "Fire" },
+      { "trait_type": "Zodiac Alignment", "value": "Aries + Rooster" },
+      { "trait_type": "Rarity", "value": "Genesis" },
+      { "trait_type": "Soulbound", "value": true }
+    ]
+  }
+  

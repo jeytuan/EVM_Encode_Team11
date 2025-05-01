@@ -1,31 +1,45 @@
 import { ethers } from "hardhat";
-import { writeFileSync } from "fs";
+import { writeFileSync, existsSync, readFileSync } from "fs";
 import path from "path";
+import * as dotenv from "dotenv";
+
+dotenv.config();
 
 async function main() {
-  const [deployer] = await ethers.getSigners();
+  const CHAIRPERSON_KEY = process.env.PRIVATE_KEY_CHAIRPERSON;
+  if (!CHAIRPERSON_KEY) throw new Error("Missing PRIVATE_KEY_CHAIRPERSON in .env");
 
-  console.log("Deploying PoolFactory from:", deployer.address);
+  // Use Hardhat-injected provider from runtime
+  const provider = ethers.provider;
+  const signer = new ethers.Wallet(CHAIRPERSON_KEY, provider);
 
-  const Factory = await ethers.getContractFactory("PoolFactory");
+  console.log("🚀 Deploying PoolFactory from:", await signer.getAddress());
 
-  // Deploy the PoolFactory with no constructor args
+  const Factory = await ethers.getContractFactory("PoolFactory", signer);
   const factory = await Factory.deploy();
   await factory.waitForDeployment();
 
   console.log("✅ PoolFactory deployed to:", factory.target);
 
-  // Write address to frontend shared file
+  // Save address to deployedAddresses.json
   const addressesPath = path.resolve(__dirname, "../../my-dapp-ui/packages/nextjs/contracts/deployedAddresses.json");
-  const addressMap = {
-    poolFactory: factory.target.toString(), // cast to string if needed
-  };
-  writeFileSync(addressesPath, JSON.stringify(addressMap, null, 2));
+  let deployedAddresses: Record<string, any> = {};
 
-  console.log("📦 Synced deployed address to deployedAddresses.json");
+  if (existsSync(addressesPath)) {
+    deployedAddresses = JSON.parse(readFileSync(addressesPath, "utf-8"));
+  }
+
+  const chainId = (await provider.getNetwork()).chainId.toString();
+  deployedAddresses[chainId] = {
+    ...deployedAddresses[chainId],
+    poolFactory: factory.target.toString(),
+  };
+
+  writeFileSync(addressesPath, JSON.stringify(deployedAddresses, null, 2));
+  console.log("📦 Synced deployedAddresses.json for chainId:", chainId);
 }
 
-main().catch(err => {
-  console.error(err);
-  process.exitCode = 1;
+main().catch((err) => {
+  console.error("❌ Deployment failed:", err);
+  process.exit(1);
 });
