@@ -5,32 +5,25 @@ import { usePublicClient } from "wagmi";
 import { getContract, type Address, type Abi } from "viem";
 import PoolAbi from "@/contracts/Pool.json";
 import PoolCard from "./PoolCard";
-// import PoolAbi from "@/contracts/Pool.json";
-// import { usePoolFactory } from "@/hooks/scaffold-eth/usePoolFactory";
-// import { type Abi, type Address, getContract } from "viem";
-// import { usePublicClient } from "wagmi";
+import { usePoolFactory } from "@/hooks/scaffold-eth/usePoolFactory";
 
+const abi = PoolAbi.abi as Abi;
 
-// const abi = PoolAbi.abi as Abi;
-
-// Uncomment this out
-
-// interface PoolMetadata {
-//   address: string;
-//   name: string;
-//   description: string;
-//   category: string;
-//   goal: string;
-//   deadline: string;
-//   balance: string;
-//   withdrawn: boolean;
-//   visibility: "public" | "private" | "unknown";
-// }
+interface PoolMetadata {
+  address: string;
+  name: string;
+  description: string;
+  category: string;
+  goal: string;
+  deadline: string;
+  balance: string;
+  withdrawn: boolean;
+  visibility: "public" | "private" | "unknown";
+}
 
 const PoolList: React.FC = () => {
-  // Uncomment this out
-  // const { getAllPools } = usePoolFactory();
-  // const publicClient = usePublicClient();
+  const { getAllPools } = usePoolFactory();
+  const publicClient = usePublicClient();
 
   const [pools, setPools] = useState<PoolMetadata[]>([]);
   const [loading, setLoading] = useState(false);
@@ -72,29 +65,15 @@ const PoolList: React.FC = () => {
               contract.read.deadline() as Promise<bigint>,
               contract.read.getTotalBalance() as Promise<bigint>,
               contract.read.withdrawn() as Promise<boolean>,
-              contract.read.visibility().catch(err => {
-                console.warn(`⚠️ visibility() call failed on ${address}:`, err);
-                return "unknown";
-              }) as Promise<string>,
+              contract.read.visibility?.().catch(() => "unknown") as Promise<string>,
             ]);
 
-            const cleanVisibility = (visibilityRaw || "").toLowerCase().trim();
             const finalVisibility: "public" | "private" | "unknown" =
-              cleanVisibility === "public"
+              visibilityRaw === "public"
                 ? "public"
-                : cleanVisibility === "private"
+                : visibilityRaw === "private"
                 ? "private"
                 : "unknown";
-
-            console.log(`📦 Pool @ ${address}:`, {
-              name,
-              visibility: finalVisibility,
-              description,
-              goal: goal.toString(),
-              deadline: deadline.toString(),
-              balance: balance.toString(),
-              withdrawn,
-            });
 
             return {
               address,
@@ -118,9 +97,6 @@ const PoolList: React.FC = () => {
         (p): p is PoolMetadata => p !== null && p.visibility === "public"
       );
 
-      console.log(`🔎 Raw pools total: ${rawPools.length}`);
-      console.log(`✅ Public pools filtered: ${filteredPools.length}`);
-
       setPools(filteredPools);
     } catch (error) {
       console.error("❌ Error fetching pools:", error);
@@ -129,7 +105,6 @@ const PoolList: React.FC = () => {
     }
   }, [getAllPools, publicClient]);
 
-  // ✅ Initial load only once
   useEffect(() => {
     fetchPools();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -153,9 +128,7 @@ const PoolList: React.FC = () => {
       ) : pools.length === 0 ? (
         <p>No public pools found. Try creating one or ensure your contracts are correct.</p>
       ) : (
-        pools.map(pool => (
-          <PoolCard key={pool.address} {...pool} />
-        ))
+        pools.map(pool => <PoolCard key={pool.address} {...pool} />)
       )}
     </div>
   );
